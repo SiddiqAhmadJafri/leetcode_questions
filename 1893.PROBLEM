@@ -1,0 +1,29 @@
+#include <stdbool.h>
+
+bool isCovered(int** ranges, int rangesSize, int* rangesColSize, int left, int right) {
+    int sid[52] = {0}; // Array to track coverage
+
+
+    for (int i = 0; i < rangesSize; i++) {
+        int start = ranges[i][0];
+        int end = ranges[i][1];
+        sid[start]++;
+        if (end + 1 < 52) { 
+            sid[end + 1]--;
+        }
+    }
+
+   
+    for (int i = 1; i < 52; i++) {
+        sid[i] += sid[i - 1];
+    }
+
+  
+    for (int i = left; i <= right; i++) {
+        if (sid[i] <= 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
