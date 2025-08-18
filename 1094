@@ -1,0 +1,25 @@
+bool carPooling(int** trips, int tripsSize, int* tripsColSize, int capacity) {
+    int min_loc = 1000, max_loc = 0;
+    // First find the min and max locations
+    for (int i = 0; i < tripsSize; i++) {
+        if (trips[i][1] < min_loc) min_loc = trips[i][1];
+        if (trips[i][2] > max_loc) max_loc = trips[i][2];
+    }
+    
+    int size = max_loc + 1;
+    int bus[size];
+    for (int i = min_loc; i <= max_loc; i++) bus[i] = 0;
+    
+    for (int i = 0; i < tripsSize; i++) {
+        bus[trips[i][1]] += trips[i][0];
+        bus[trips[i][2]] -= trips[i][0];
+    }
+    
+    int passengers = 0;
+    for (int i = min_loc; i <= max_loc; i++) {
+        passengers += bus[i];
+        if (passengers > capacity) return false;
+    }
+    
+    return true;
+}
