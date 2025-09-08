@@ -1,0 +1,29 @@
+#include <vector>
+#include <unordered_map>
+
+class Solution {
+public:
+    int fourSumCount(std::vector<int>& nums1, std::vector<int>& nums2, std::vector<int>& nums3, std::vector<int>& nums4) {
+        std::unordered_map<int, int> sum_counts;
+        
+        // Calculate sums of nums1 and nums2
+        for (int a : nums1) {
+            for (int b : nums2) {
+                sum_counts[a + b]++;
+            }
+        }
+        
+        int count = 0;
+        // Calculate sums of nums3 and nums4 and check against sum_counts
+        for (int c : nums3) {
+            for (int d : nums4) {
+                int target_sum = -(c + d);
+                if (sum_counts.count(target_sum)) {
+                    count += sum_counts[target_sum];
+                }
+            }
+        }
+        
+        return count;
+    }
+};
