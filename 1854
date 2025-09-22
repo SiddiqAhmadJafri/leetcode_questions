@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int maximumPopulation(vector<vector<int>>& logs) {
+        constexpr int kMinYear = 1950;
+        constexpr int kMaxYear = 2050;
+
+        // Initialize an array to store population changes for each year
+        // The size is kMaxYear + 1 to include kMaxYear
+        vector<int> populationChanges(kMaxYear + 1, 0);
+
+        // Process each log entry to mark birth and death years
+        for (const vector<int>& log : logs) {
+            int birthYear = log[0];
+            int deathYear = log[1];
+
+            // Increment population at birth year
+            populationChanges[birthYear]++;
+            // Decrement population at death year (person is no longer alive in this year)
+            populationChanges[deathYear]--;
+        }
+
+        int maxPopulation = 0;
+        int currentPopulation = 0;
+        int maxPopulationYear = kMinYear; // Initialize with the earliest possible year
+
+        // Iterate through the years to calculate running population and find the maximum
+        for (int year = kMinYear; year <= kMaxYear; ++year) {
+            currentPopulation += populationChanges[year];
+
+            if (currentPopulation > maxPopulation) {
+                maxPopulation = currentPopulation;
+                maxPopulationYear = year;
+            }
+        }
+
+        return maxPopulationYear;
+    }
+};
