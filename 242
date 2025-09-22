@@ -1,0 +1,39 @@
+#include <string>
+#include <vector>
+#include <algorithm> // Required for std::sort if using the sorting approach
+
+class Solution {
+public:
+    bool isAnagram(std::string s, std::string t) {
+        // Anagrams must have the same length
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        // Using a frequency array for lowercase English letters
+        // 'a' - 'a' = 0, 'b' - 'a' = 1, ..., 'z' - 'a' = 25
+        std::vector<int> char_counts(26, 0);
+
+        // Increment counts for characters in string s
+        for (char c : s) {
+            char_counts[c - 'a']++;
+        }
+
+        // Decrement counts for characters in string t
+        // If a count goes below zero, t has a character not present in s
+        // or present in insufficient quantity.
+        for (char c : t) {
+            char_counts[c - 'a']--;
+            if (char_counts[c - 'a'] < 0) {
+                return false;
+            }
+        }
+
+        // If all counts are zero after processing both strings,
+        // they are anagrams.
+        // This check is implicitly handled by the previous loop and
+        // the initial length check. If lengths are equal and no count
+        // went below zero, all counts must be zero.
+        return true;
+    }
+};
