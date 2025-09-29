@@ -1,0 +1,23 @@
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <algorithm> // For std::sort
+
+class Solution {
+public:
+    std::vector<std::vector<std::string>> groupAnagrams(std::vector<std::string>& strs) {
+        std::unordered_map<std::string, std::vector<std::string>> anagramGroups;
+
+        for (const std::string& s : strs) {
+            std::string sorted_s = s;
+            std::sort(sorted_s.begin(), sorted_s.end()); // Sort the string to get its canonical form
+            anagramGroups[sorted_s].push_back(s); // Add the original string to the group
+        }
+
+        std::vector<std::vector<std::string>> result;
+        for (auto const& [key, val] : anagramGroups) {
+            result.push_back(val); // Collect all the groups
+        }
+        return result;
+    }
+};
