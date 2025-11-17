@@ -1,0 +1,17 @@
+class Solution {
+ public:
+  int findPeakElement(vector<int>& nums) {
+    int low = 0;
+    int r = nums.size() - 1;
+
+    while (low < r) {
+      const int m = (low + r) / 2;
+      if (nums[m] >= nums[m + 1])
+        r = m;
+      else
+        low = m + 1;
+    }
+
+    return low;
+  }
+};
